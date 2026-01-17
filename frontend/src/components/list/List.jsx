@@ -37,7 +37,11 @@ const List = ({ lst, items,
             </main>
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} >
-                <CreateTask prefills={{ status: lst.value }} boardId={boardId} handleSubmit={handleCreateNewTask} />
+                <CreateTask prefills={{ status: lst.value }} boardId={boardId} handleSubmit={(e) => {
+
+                    handleCreateNewTask(e)
+                    setIsModalOpen(false);
+                }} />
             </Modal>
 
         </div>

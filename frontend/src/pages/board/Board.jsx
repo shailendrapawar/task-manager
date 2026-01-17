@@ -1,7 +1,7 @@
 import { useTheme } from "../../contexts/theme/ThemeProvider"
 import { MdWindow } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import List from "../../components/list/List";
 
@@ -14,6 +14,7 @@ import { useTasks } from "../../contexts/tasks/TaskProvider.jsx";
 
 
 export const Board = () => {
+  const navigate = useNavigate();
   const { theme } = useTheme()
   const { setTasks, tasks, addTask, deleteTask, updateTask } = useTasks();
 
@@ -24,13 +25,13 @@ export const Board = () => {
 
   const [list, setlist] = useState(dummyLists)
 
+
   const fetchAllTasks = async (id) => {
     try {
       const result = await API.get(`/tasks?boardId=${id}`);
 
       const items = result?.data?.data?.items
-      // console.log("result", items)
-      if (items.length) {
+      if (Array.isArray(items)) {
         setTasks(items)
       }
     } catch (error) {
@@ -66,16 +67,13 @@ export const Board = () => {
     try {
       console.log("Deleting task:", task)
       const result = await API.delete(`/tasks/${task?._id}`)
-      console.log("Delete response:", result)
-
       if (result?.data?.success) {
-        deleteTask(task?._id)
+        // deleteTask(task?._id)
         toast.success("Task deleted successfully")
       } else {
         toast.error("Failed to delete task")
       }
     } catch (error) {
-      console.error("Delete error:", error)
       toast.error(error?.response?.data?.message || "Failed to delete task")
     }
   }, [id])
@@ -85,13 +83,11 @@ export const Board = () => {
     try {
       setIsModelOpen(false)
       const result = await API.put(`/tasks/${id}`, updatedTask)
-      // console.log(result?.data?.data)
       toast.success("Task Updated..")
       setIsModelOpen(false)
       updateTask(updatedTask, id)
-      console.log(tasks);
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       toast.error("Something went wrong")
     }
   }, [id])
@@ -101,10 +97,10 @@ export const Board = () => {
     if (id) {
       fetchAllTasks(id)
     }
+    console.log("page found")
 
-  }, [id])
+  }, [])
 
-  // console.log("check", tasks)
   return (
     <main className="h-full w-full"
       style={{
@@ -120,7 +116,7 @@ export const Board = () => {
         <span className=" flex items-center gap-2"
           style={{ color: theme.primary }}
         >
-          <MdWindow className="h-10 w-10" />
+          <MdWindow className="h-10 w-10" onClick={() => navigate(-1)} />
           <span className="text-xl font-semibold">{name || ""}</span>
         </span>
 
@@ -146,6 +142,7 @@ export const Board = () => {
             handleCreateNewTask={handleCreateNewTask}
             handleDeleteTask={handleDeleteTask}
             handleUpdateTask={handleUpdateTask}
+
           />
         ))}
       </section>

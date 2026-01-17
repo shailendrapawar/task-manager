@@ -26,7 +26,7 @@ const Home = () => {
             const result = await API.get("/boards");
             // console.log(result);
             const items = result?.data?.data?.items
-            console.log(items)
+            // console.log(items)
             if (items.length) {
                 setBoards(items)
                 return
