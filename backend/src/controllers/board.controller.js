@@ -6,6 +6,7 @@ import Task from "../models/task.model.js";
 
 import mongoose from "mongoose";
 import { createTaskSchema } from "../validations/task.validators.js";
+import TaskModel from "../models/task.model.js";
 
 export const getBoard = async (req, res) => {
     try {
@@ -31,8 +32,18 @@ export const searchBoards = async (req, res) => {
 
     try {
         const Boards = await Board.find({}).lean();
+        const agg = await TaskModel.aggregate([
+            {
+                $group: {
+                    _id: "$boardId",
+                    totalTask: {
+                        $sum: 1
+                    }
+                }
+            }
+        ])
 
-        let data = Boards.length ? { items: Boards, count: Boards.length } : { items: [], count: 0 };
+        let data = Boards.length ? { items: Boards, count: Boards.length, agg } : { items: [], count: 0, agg: null };
 
         return handleResponse(res, 200, 'Boards retrieved successfully', data);
     } catch (error) {

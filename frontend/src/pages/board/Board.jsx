@@ -16,11 +16,10 @@ import { useTasks } from "../../contexts/tasks/TaskProvider.jsx";
 export const Board = () => {
   const navigate = useNavigate();
   const { theme } = useTheme()
-  const { setTasks, tasks, addTask, deleteTask, updateTask } = useTasks();
+  const { setTasks, tasks, addTask, deleteTask, updateTask,aggData } = useTasks();
 
   const [loading, setLoading] = useState(false);
 
-  // console.log(useTasks())
   const { name, id } = useParams()
 
   const [isModelOpen, setIsModelOpen] = useState(false);

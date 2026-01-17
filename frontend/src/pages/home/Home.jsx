@@ -16,6 +16,8 @@ const Home = () => {
     const [boardModalOpen, setBoardModalOpen] = useState(false);
     const [boards, setBoards] = useState([]);
 
+    const [agg, setAgg] = useState([])
+
     const [newBoard, setNewBoard] = useState({
         title: "",
         description: ""
@@ -25,10 +27,12 @@ const Home = () => {
         try {
             const result = await API.get("/boards");
             // console.log(result);
-            const items = result?.data?.data?.items
-            // console.log(items)
-            if (items.length) {
+            const { items, agg } = result?.data?.data
+
+            // console.log(result?.data?.data)
+            if (Array.isArray(items)) {
                 setBoards(items)
+                setAgg(agg)
                 return
             }
         } catch (error) {
@@ -104,9 +108,10 @@ const Home = () => {
 
                     <div className="h-auto w-full grid grid-cols-1 sm:grid-cols-2 place-items-center gap-2 py-5 mt-5">
                         {
-                            boards?.map((board) => (
-                                <BoardCard key={board._id} board={board} />
-                            ))
+                            boards?.map((board) => {
+                                const aggData = agg?.filter((v, i) => v?._id?.toString() == board?._id?.toString())
+                                return <BoardCard key={board?._id} board={board} aggData={aggData?.[0]} />
+                            })
                         }
 
                     </div>

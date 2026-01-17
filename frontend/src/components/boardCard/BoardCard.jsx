@@ -1,12 +1,12 @@
 import { useTheme } from "../../contexts/theme/ThemeProvider"
 import { useNavigate } from "react-router-dom"
-const BoardCard = ({ board }) => {
+const BoardCard = ({ board, aggData }) => {
     const { theme } = useTheme()
     const navigate = useNavigate();
 
     return (
         <div
-            className="flex items-center gap-4 rounded-xl px-4 py-3 mb-3 w-full h-20 cursor-pointer hover:shadow-lg transition"
+            className="flex items-center relative gap-4 rounded-xl px-4 py-3 mb-3 w-full h-20 cursor-pointer hover:shadow-lg transition"
             style={{
                 border: `1px solid ${theme.border}`,
                 backgroundColor: theme.cardBackground,
@@ -43,8 +43,14 @@ const BoardCard = ({ board }) => {
                     {board.title}
                 </span>
                 <span className="text-sm opacity-70">
-                    Created {new Date(board.createdAt.$date).toLocaleDateString()}
+                    Created: {new Date(board.createdAt).toLocaleDateString()}
                 </span>
+            </div>
+
+            <div className="h-8 w-8 text-white flex justify-center items-center rounded-full absolute right-5"
+                style={{ backgroundColor: theme.primary }}
+            >
+                {aggData?.totalTask || 0}
             </div>
         </div>
     )
