@@ -8,7 +8,8 @@ A simple task management system to organize your work across multiple boards.
 - Create, edit, and delete tasks
 - Set priority, due dates, and assignees
 - Organize tasks by status (Todo, In Progress, Done)
-- Dark/Light theme support
+- Easy Drag & Drop for status transition 
+<!-- - Dark/Light theme support -->
 - Responsive design
 
 ## Quick Start
@@ -48,7 +49,7 @@ Open `http://localhost:5173` in your browser.
 ## Tech Stack
 
 - Frontend: React, Vite, Tailwind CSS, React Router
-- Backend: Node.js, Express, MongoDB, Mongoose
+- Backend: Node.js, Express, MongoDB, Mongoose,Joi
 
 
 ## Available Commands

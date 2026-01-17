@@ -50,7 +50,7 @@ const List = ({ lst, items,
 
             <main className="px-2 py-4 flex flex-col gap-2">
                 {items?.map((item, i) => (
-                    <TaskCard key={i} data={item}
+                    <TaskCard key={item._id} data={item}
                         handleDeleteTask={handleDeleteTask}
                         handleUpdateTask={handleUpdateTask}
                     />

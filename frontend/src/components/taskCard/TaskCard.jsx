@@ -4,6 +4,12 @@ import { MdDeleteForever } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { Modal } from "../modal/Modal";
 import CreateTask from "../createTask/CreateTask";
+
+import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
+import { PiEqualsBold } from "react-icons/pi";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+
+
 // import { renderPriority } from "../../utils/tasksData";
 const TaskCard = ({ data, handleDeleteTask, handleUpdateTask }) => {
     const { title,
@@ -88,30 +94,36 @@ export default TaskCard;
 export const renderPriority = (priority = "medium") => {
     const map = {
         low: {
-            bg: "#ecfdf5",
-            text: "#16a34a"
+            bg: "#16a34a",
+            text: "#16a34a",
+            icon: <MdOutlineKeyboardArrowDown />
         },
         medium: {
-            bg: "#fffbeb",
-            text: "#d97706"
+            // bg: "#fffbeb",
+            bg: "#d97706",
+            text: "#d97706",
+            icon: <PiEqualsBold />
         },
         high: {
-            bg: "#fef2f2",
-            text: "#dc2626"
+            bg: "#dc2626",
+            text: "#dc2626",
+            icon: <MdOutlineKeyboardDoubleArrowUp />
         }
     };
 
-    const { bg, text } = map[priority] || map.medium;
+    const { bg, text,icon } = map[priority] || map.medium;
 
     return (
         <span
-            className="text-[10px] px-2 py-1 rounded"
+            className="text-[10px] px-4 py-1 rounded-full flex items-center gap-2 "
+
             style={{
-                backgroundColor: bg,
-                color: text
+                backgroundColor: bg + "10",
+                color: text,
+                // border:`1px solid ${text}`
             }}
         >
-            {priority}
+            <span>{priority}</span><span className="font-semibold">{icon}</span>
         </span>
     );
 };

@@ -18,6 +18,8 @@ export const Board = () => {
   const { theme } = useTheme()
   const { setTasks, tasks, addTask, deleteTask, updateTask } = useTasks();
 
+  const [loading, setLoading] = useState(false);
+
   // console.log(useTasks())
   const { name, id } = useParams()
 
@@ -41,6 +43,7 @@ export const Board = () => {
 
   const handleCreateNewTask = useCallback(async (data) => {
     try {
+      if (loading) return
       if (data?.title == "" || data?.description == "" || data.boardId == "" ||
         data.dueDate == "" ||
         data?.assignedTo == ""
@@ -48,6 +51,8 @@ export const Board = () => {
         toast.error("All fields manadatory ")
         return
       }
+      setLoading(true);
+
       const result = await API.post(`/boards/${id}/tasks`, data);
 
       const item = result?.data?.data
@@ -59,29 +64,38 @@ export const Board = () => {
     } catch (error) {
       toast.error("Something went wrong")
       setIsModelOpen(false)
+    } finally {
+      setLoading(false);
     }
   }, [id])
 
 
   const handleDeleteTask = useCallback(async (task) => {
+    if (loading) return
+
     try {
-      console.log("Deleting task:", task)
+      setLoading(true)
       const result = await API.delete(`/tasks/${task?._id}`)
       if (result?.data?.success) {
-        // deleteTask(task?._id)
+        deleteTask(task?._id)
         toast.success("Task deleted successfully")
       } else {
         toast.error("Failed to delete task")
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to delete task")
+    } finally {
+      setLoading(false)
     }
   }, [id])
 
   const handleUpdateTask = useCallback(async (updatedTask, id) => {
     if (!id) return
+    if (loading) return
+
     try {
       setIsModelOpen(false)
+      setLoading(true)
       const result = await API.put(`/tasks/${id}`, updatedTask)
       toast.success("Task Updated..")
       setIsModelOpen(false)
@@ -89,6 +103,8 @@ export const Board = () => {
     } catch (error) {
       const errMsg = error?.response?.data?.error || "Somethig went wrong"
       toast.error(errMsg)
+    } finally {
+      setLoading(false)
     }
   }, [id])
 
