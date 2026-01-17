@@ -87,8 +87,8 @@ export const Board = () => {
       setIsModelOpen(false)
       updateTask(updatedTask, id)
     } catch (error) {
-      // console.log(error)
-      toast.error("Something went wrong")
+      const errMsg = error?.response?.data?.error || "Somethig went wrong"
+      toast.error(errMsg)
     }
   }, [id])
 

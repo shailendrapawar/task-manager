@@ -4,6 +4,8 @@ import { Modal } from "../modal/Modal";
 import { useState } from "react";
 import CreateTask from "../createTask/CreateTask";
 import { useParams } from "react-router-dom"
+import { useTheme } from "../../contexts/theme/ThemeProvider";
+import { useTasks } from "../../contexts/tasks/TaskProvider";
 
 const List = ({ lst, items,
     handleCreateNewTask,
@@ -13,11 +15,30 @@ const List = ({ lst, items,
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { boardId } = useParams()
+    // const{}=useTasks()
+    // console.log(lst)
+    const handleDrop = (e) => {
+        e.preventDefault();
+        let task = e.dataTransfer.getData("task");
+        // console.log(JSON.parse(task))
+        task = JSON.parse(task)
+
+        task = {
+            ...task,
+            status: lst.value
+        }
+        // console.log("new", task)
+        handleUpdateTask(task, task?._id);
+
+    };
     // console.log(items)
 
 
     return (
-        <div key={lst?.id} className={`${lst?.bg}  w-full h-100 overflow-y-scroll hide-scrollbar rounded-md relative`}>
+        <div key={lst?.id} className={`${lst?.bg}  w-full h-100 overflow-y-scroll hide-scrollbar rounded-md relative`}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={handleDrop}
+        >
 
             <section className=" h-10  w-full justify-between items-center px-3 py-2 rounded-t-md flex-row flex cursor-pointer ">
                 <span className="flex  items-center gap-2  cursor-pointer">

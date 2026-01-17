@@ -25,6 +25,11 @@ const TaskCard = ({ data, handleDeleteTask, handleUpdateTask }) => {
             style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}
             onMouseOver={(e) => setIsHover(true)}
             onMouseOut={(e) => setIsHover(false)}
+
+            draggable
+            onDragStart={(e) => {
+                e.dataTransfer.setData("task", JSON.stringify(data))
+            }}
         >
             {/* Header: title + actions */}
             <div className="flex justify-between items-start mb-1 cursor-pointer">

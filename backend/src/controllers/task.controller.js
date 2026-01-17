@@ -81,7 +81,7 @@ export const updateTask = async (req, res) => {
         if (value.status) {
             const allowedStatuses = statusMap[task.status];
             if (!allowedStatuses.includes(value.status)) {
-                return handleError(res, 400, `Invalid status transition from ${task.status} to ${value.status}`);
+                return handleError(res, 400, `Cannot move task from ${task.status?.toUpperCase()} to ${value.status?.toUpperCase()}`);
             }
         }
         task = Object.assign(task, value);

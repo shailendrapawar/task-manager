@@ -23,7 +23,6 @@ const BoardCard = ({ board }) => {
                     backgroundColor: theme.iconBackground || "#e5e7eb",
                 }}
             >
-                {/* Grid icon */}
                 <svg
                     width="18"
                     height="18"
