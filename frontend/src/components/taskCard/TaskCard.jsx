@@ -2,8 +2,10 @@ import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
+import { Modal } from "../modal/Modal";
+import CreateTask from "../createTask/CreateTask";
 // import { renderPriority } from "../../utils/tasksData";
-const TaskCard = ({ data }) => {
+const TaskCard = ({ data, handleDeleteTask }) => {
     const { title,
         description,
         assignee,
@@ -15,9 +17,7 @@ const TaskCard = ({ data }) => {
     // console.log(data)
     const [isHover, setIsHover] = useState(false);
 
-    const handleDelete = () => {
-
-    }
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div
@@ -35,19 +35,16 @@ const TaskCard = ({ data }) => {
 
                 <div className={`flex gap-1 text-sm cursor-pointer relative ${isHover ? 'visible' : 'invisible'}`}>
                     <button className="text-red-500 hover:text-white hover:bg-red-500 active:opacity-80 rounded-full transition-all ease-in-out h-6 w-6 cursor-pointer flex  justify-center items-center"
-
+                        onClick={(e) => handleDeleteTask(data)}
                     >
-                        <MdDeleteForever data-action="delete-task"
-                            data-id={`${data.id || data._id}`}
-                            className="" 
-                            />
+                        <MdDeleteForever
+                            className=""
+                        />
                     </button>
                     <button className="text-blue-500 hover:text-white hover:bg-blue-500 active:opacity-80 rounded-full transition-all ease-in-out h-6 w-6 cursor-pointer flex justify-center items-center"
-
+                        onClick={() => setIsModalOpen(true)}
                     >
-                        <MdEdit data-action="edit-task"
-                            data-id={`${data.id || data._id}`}
-                            className=""
+                        <MdEdit
                         />
                     </button>
                 </div>
@@ -73,6 +70,10 @@ const TaskCard = ({ data }) => {
 
                 {renderPriority(priority)}
             </div>
+
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <CreateTask prefills={data} actionLabel={"Update"} />
+            </Modal>
         </div>
     );
 };

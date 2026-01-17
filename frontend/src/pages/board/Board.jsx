@@ -6,9 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import List from "../../components/list/List";
 
 import { dummyLists } from "../../utils/listData.js";
-import { dummyTasks } from "../../utils/tasksData.js";
 import { Modal } from "../../components/modal/Modal.jsx";
-import CreateBoard from "../../components/createBoard/CreateBoard.jsx";
 import CreateTask from "../../components/createTask/CreateTask.jsx";
 import API from "../../configs/api.js";
 import toast from "react-hot-toast";
@@ -17,7 +15,7 @@ import { useTasks } from "../../contexts/tasks/TaskProvider.jsx";
 
 export const Board = () => {
   const { theme } = useTheme()
-  const { setTasks, tasks, addTask } = useTasks();
+  const { setTasks, tasks, addTask, deleteTask } = useTasks();
 
   // console.log(useTasks())
   const { name, id } = useParams()
@@ -29,8 +27,9 @@ export const Board = () => {
   const fetchAllTasks = async (id) => {
     try {
       const result = await API.get(`/tasks?boardId=${id}`);
-      // console.log(result)
+
       const items = result?.data?.data?.items
+      // console.log("result", items)
       if (items.length) {
         setTasks(items)
       }
@@ -56,28 +55,37 @@ export const Board = () => {
         addTask(item)
       }
       setIsModelOpen(false)
+      setIsModelOpen(false)
+      toast.success("New Task added")
     } catch (error) {
       toast.error("Something went wrong")
-    } finally {
       setIsModelOpen(false)
     }
   }, [])
 
 
-  const handleDeleteTask = useCallback(() => {
+  const handleDeleteTask = useCallback(async (task) => {
     try {
+      console.log("Deleting task:", task)
+      const result = await API.delete(`/tasks/${task?._id}`)
+      console.log("Delete response:", result)
 
+      if (result?.data?.success) {
+        deleteTask(task?._id)
+        toast.success("Task deleted successfully")
+      } else {
+        toast.error("Failed to delete task")
+      }
     } catch (error) {
-      toast.error("Something went wrong")
-    } finally {
-      // setIsModelOpen(false)
+      console.error("Delete error:", error)
+      toast.error(error?.response?.data?.message || "Failed to delete task")
     }
-  }, [])
+  }, [deleteTask])
 
-  const captureDeleteEvent = async (e) => {
-    const action = e.target.dataset.action;
-    console.log(action);
-  }
+  const handleUpdateTask=useCallback(()=>{
+
+  },[])
+
 
   useEffect(() => {
     if (id) {
@@ -86,6 +94,7 @@ export const Board = () => {
 
   }, [id])
 
+  // console.log("check", tasks)
   return (
     <main className="h-full w-full"
       style={{
@@ -119,7 +128,6 @@ export const Board = () => {
       </Modal>
 
       <section className=" h-auto min-h-50 mt-5 gap-5 px-2 items-center grid grid-cols-3"
-        onClickCapture={(e) => captureDeleteEvent(e)}
       >
         {list?.map((lst, i) => (
           <List key={i} lst={lst}

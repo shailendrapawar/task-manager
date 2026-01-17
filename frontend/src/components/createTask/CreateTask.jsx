@@ -3,18 +3,20 @@ import { useTheme } from "../../contexts/theme/ThemeProvider";
 
 const CreateTask = ({
     boardId,
-    status,
-    handleSubmit
+    handleSubmit,
+    actionLabel,
+    prefills
 }) => {
     const { theme } = useTheme();
+
     const [task, setTask] = useState({
-        title: "",
-        description: "",
-        status: status || "todo",
-        priority: "medium",
-        dueDate: "",
-        assignedTo: "",
-        boardId: boardId
+        title: prefills?.title || "",
+        description: prefills?.description || "",
+        status: prefills?.status || "todo",
+        priority: prefills?.priority || "medium",
+        dueDate: prefills?.dueData || "",
+        assignedTo: prefills?.assignedTo || "",
+        boardId: prefills?.priority || boardId
     });
 
     const onChange = (e) => {
@@ -28,13 +30,11 @@ const CreateTask = ({
 
     };
 
-
     const inputCls =
         "w-full rounded-md px-2 py-1.5 text-sm focus:outline-none";
 
     return (
         <div className={`flex flex-col gap-2 text-sm `}
-
         >
             <h4 className="font-semibold">New Task</h4>
 
@@ -112,7 +112,7 @@ const CreateTask = ({
                     }}
                     onClick={() => handleSubmit(task)}
                 >
-                    Create
+                    {actionLabel||"Create"}
                 </button>
             )}
         </div>

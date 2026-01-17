@@ -8,15 +8,21 @@ const TaskProvider = ({ children }) => {
     };
 
     const deleteTask = (id) => {
-        setTasks((prev) => prev.filter((t) => t._id !== id));
+        console.log("here===>f", id)
+
+        console.log("assl task", tasks)
+        const filteredList = tasks.filter((t) => t._id !== id)
+        console.log(filteredList)
+        setTasks(filteredList);
     };
+
     return (
         <TaskContext.Provider
             value={{
                 tasks,
                 setTasks,
                 addTask,
-                deleteTask,
+                deleteTask
             }}
         >
             {children}
