@@ -15,7 +15,7 @@ import { useTasks } from "../../contexts/tasks/TaskProvider.jsx";
 
 export const Board = () => {
   const { theme } = useTheme()
-  const { setTasks, tasks, addTask, deleteTask } = useTasks();
+  const { setTasks, tasks, addTask, deleteTask, updateTask } = useTasks();
 
   // console.log(useTasks())
   const { name, id } = useParams()
@@ -85,10 +85,13 @@ export const Board = () => {
     try {
       setIsModelOpen(false)
       const result = await API.put(`/tasks/${id}`, updatedTask)
-      console.log(result?.data?.data)
+      // console.log(result?.data?.data)
       toast.success("Task Updated..")
       setIsModelOpen(false)
+      updateTask(updatedTask, id)
+      console.log(tasks);
     } catch (error) {
+      console.log(error)
       toast.error("Something went wrong")
     }
   }, [id])

@@ -14,7 +14,6 @@ const CreateTask = React.memo(({
     };
     const { theme } = useTheme();
 
-    console.log("prefills", prefills)
     const [task, setTask] = useState({
         title: prefills?.title || "",
         description: prefills?.description || "",

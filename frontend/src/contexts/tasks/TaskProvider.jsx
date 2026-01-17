@@ -8,13 +8,20 @@ const TaskProvider = ({ children }) => {
     };
 
     const deleteTask = (id) => {
-        console.log("here===>f", id)
-
-        console.log("assl task", tasks)
-        const filteredList = tasks.filter((t) => t._id !== id)
-        console.log(filteredList)
-        setTasks(filteredList);
+        setTasks((prev) =>
+            prev.filter((t) => t?._id?.toString() !== id?.toString())
+        );
     };
+
+    const updateTask = (updatedTask, id) => {
+        setTasks((prev) =>
+            prev.map((task) =>
+                task._id?.toString() === id?.toString()
+                    ? { ...task, ...updatedTask }
+                    : task
+            )
+        );
+    }
 
     return (
         <TaskContext.Provider
@@ -22,7 +29,8 @@ const TaskProvider = ({ children }) => {
                 tasks,
                 setTasks,
                 addTask,
-                deleteTask
+                deleteTask,
+                updateTask
             }}
         >
             {children}
