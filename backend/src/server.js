@@ -7,6 +7,7 @@ configDotenv();
 // Importing routes
 import taskRoutes from './routes/task.routes.js';
 import boardRoutes from './routes/board.routes.js';
+import { startPingCron } from './jobs/ping.cron.js';
 
 const app = express();
 
@@ -35,6 +36,8 @@ connectDb().then(() => {
     app.listen(PORT, () => {
         console.log(`Server is running on port: ${PORT}`);
     });
+
+    startPingCron()
 }).catch((error) => {
     console.error("Failed to connect to the database", error);
 });

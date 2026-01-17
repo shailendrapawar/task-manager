@@ -110,7 +110,7 @@ const CreateTask = React.memo(({
 
             {task?.title && (
                 <button
-                    className="self-end mt-1 px-4 py-1.5 rounded-md text-sm"
+                    className="self-end mt-1 px-4 py-1.5 rounded-md text-sm cursor-pointer active:scale-95 transition ease-in-out"
                     style={{
                         background: theme.primary,
                         color: theme.primaryText

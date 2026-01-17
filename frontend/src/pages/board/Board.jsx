@@ -136,7 +136,7 @@ export const Board = () => {
           <span className="text-xl font-semibold ">{name || ""}{name != "" ? " 's Board" : ""}</span>
         </span>
 
-        <button className=" text-white px-4 py-2 rounded-md active:opacity-95  transition flex items-center gap-2"
+        <button className=" text-white px-4 py-2 rounded-md active:opacity-95 active:scale-95 ease-in  transition flex items-center gap-2"
           style={{ backgroundColor: theme.primary }}
           onClick={() => setIsModelOpen(true)}
         >

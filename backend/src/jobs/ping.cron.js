@@ -11,11 +11,11 @@ export const startPingCron = () => {
                 console.log("No backend Url found to ping")
                 return
             }
-            await fetch(url+ "/health", { signal: AbortSignal.timeout(5000) });
+            await fetch(url + "/health", { signal: AbortSignal.timeout(5000) });
             console.log("Pinged self=============>>>>>");
         } catch (e) {
             console.log("Ping failed==============>>>>");
         }
     });
-    console.log("Ping cron started");
+    console.log("Ping cron started==========>");
 };
