@@ -5,7 +5,7 @@ import { MdEdit } from "react-icons/md";
 import { Modal } from "../modal/Modal";
 import CreateTask from "../createTask/CreateTask";
 // import { renderPriority } from "../../utils/tasksData";
-const TaskCard = ({ data, handleDeleteTask }) => {
+const TaskCard = ({ data, handleDeleteTask, handleUpdateTask }) => {
     const { title,
         description,
         assignee,
@@ -72,7 +72,7 @@ const TaskCard = ({ data, handleDeleteTask }) => {
             </div>
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <CreateTask prefills={data} actionLabel={"Update"} />
+                <CreateTask prefills={data} actionLabel={"Update"} handleSubmit={handleUpdateTask} />
             </Modal>
         </div>
     );

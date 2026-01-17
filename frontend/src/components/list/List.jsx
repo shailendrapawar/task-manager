@@ -5,7 +5,11 @@ import { useState } from "react";
 import CreateTask from "../createTask/CreateTask";
 import { useParams } from "react-router-dom"
 
-const List = ({ lst, items, handleCreateNewTask, handleDeleteTask }) => {
+const List = ({ lst, items,
+    handleCreateNewTask,
+    handleDeleteTask,
+    handleUpdateTask
+}) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { boardId } = useParams()
@@ -25,12 +29,15 @@ const List = ({ lst, items, handleCreateNewTask, handleDeleteTask }) => {
 
             <main className="px-2 py-4 flex flex-col gap-2">
                 {items?.map((item, i) => (
-                    <TaskCard key={i} data={item} handleDeleteTask={handleDeleteTask} />
+                    <TaskCard key={i} data={item}
+                        handleDeleteTask={handleDeleteTask}
+                        handleUpdateTask={handleUpdateTask}
+                    />
                 ))}
             </main>
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} >
-                <CreateTask prefills={{ status: lst.value }}  boardId={boardId} handleSubmit={handleCreateNewTask} />
+                <CreateTask prefills={{ status: lst.value }} boardId={boardId} handleSubmit={handleCreateNewTask} />
             </Modal>
 
         </div>

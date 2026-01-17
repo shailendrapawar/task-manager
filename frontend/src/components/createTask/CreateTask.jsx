@@ -1,22 +1,28 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useTheme } from "../../contexts/theme/ThemeProvider";
 
-const CreateTask = ({
+const CreateTask = React.memo(({
     boardId,
     handleSubmit,
     actionLabel,
     prefills
 }) => {
+    const formatDateForInput = (date) => {
+        if (!date) return "";
+        const d = new Date(date);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    };
     const { theme } = useTheme();
 
+    console.log("prefills", prefills)
     const [task, setTask] = useState({
         title: prefills?.title || "",
         description: prefills?.description || "",
         status: prefills?.status || "todo",
         priority: prefills?.priority || "medium",
-        dueDate: prefills?.dueData || "",
+        dueDate: formatDateForInput(prefills?.dueDate) || "",
         assignedTo: prefills?.assignedTo || "",
-        boardId: prefills?.priority || boardId
+        boardId: prefills?.boardId || boardId
     });
 
     const onChange = (e) => {
@@ -110,13 +116,13 @@ const CreateTask = ({
                         background: theme.primary,
                         color: theme.primaryText
                     }}
-                    onClick={() => handleSubmit(task)}
+                    onClick={() => handleSubmit(task, prefills?._id)}
                 >
-                    {actionLabel||"Create"}
+                    {actionLabel || "Create"}
                 </button>
             )}
         </div>
     );
-};
+})
 
 export default CreateTask;

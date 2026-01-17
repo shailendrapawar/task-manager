@@ -47,7 +47,6 @@ export const Board = () => {
         toast.error("All fields manadatory ")
         return
       }
-
       const result = await API.post(`/boards/${id}/tasks`, data);
 
       const item = result?.data?.data
@@ -55,13 +54,12 @@ export const Board = () => {
         addTask(item)
       }
       setIsModelOpen(false)
-      setIsModelOpen(false)
       toast.success("New Task added")
     } catch (error) {
       toast.error("Something went wrong")
       setIsModelOpen(false)
     }
-  }, [])
+  }, [id])
 
 
   const handleDeleteTask = useCallback(async (task) => {
@@ -80,11 +78,20 @@ export const Board = () => {
       console.error("Delete error:", error)
       toast.error(error?.response?.data?.message || "Failed to delete task")
     }
-  }, [deleteTask])
+  }, [id])
 
-  const handleUpdateTask=useCallback(()=>{
-
-  },[])
+  const handleUpdateTask = useCallback(async (updatedTask, id) => {
+    if (!id) return
+    try {
+      setIsModelOpen(false)
+      const result = await API.put(`/tasks/${id}`, updatedTask)
+      console.log(result?.data?.data)
+      toast.success("Task Updated..")
+      setIsModelOpen(false)
+    } catch (error) {
+      toast.error("Something went wrong")
+    }
+  }, [id])
 
 
   useEffect(() => {
@@ -124,7 +131,8 @@ export const Board = () => {
       </section>
 
       <Modal isOpen={isModelOpen} onClose={() => setIsModelOpen(false)}>
-        <CreateTask handleSubmit={handleCreateNewTask} />
+        <CreateTask handleSubmit={handleCreateNewTask}
+        />
       </Modal>
 
       <section className=" h-auto min-h-50 mt-5 gap-5 px-2 items-center grid grid-cols-3"
@@ -134,6 +142,7 @@ export const Board = () => {
             items={tasks?.filter((v, i) => v.status === lst.value)}
             handleCreateNewTask={handleCreateNewTask}
             handleDeleteTask={handleDeleteTask}
+            handleUpdateTask={handleUpdateTask}
           />
         ))}
       </section>

@@ -10,9 +10,9 @@ import mongoose from "mongoose";
 import { updateTaskSchema } from "../validations/task.validators.js";
 
 const statusMap = {
-    'todo': ["in-progress", "done"],
-    'in-progress': ["todo", "done"],
-    'done': []
+    'todo': ["todo", "in-progress", "done"],
+    'in-progress': ["in-progress", "todo", "done"],
+    'done': ["done"]
 }
 
 export const getTask = async (req, res) => {
