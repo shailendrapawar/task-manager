@@ -24,7 +24,9 @@ app.use('/boards', boardRoutes);
 app.get('/', (req, res) => {
     res.send('server working');
 });
-
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
+});
 
 
 
