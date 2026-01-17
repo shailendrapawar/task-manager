@@ -109,7 +109,7 @@ export const createTask = async (req, res) => {
         if (!board) {
             return handleError(res, 404, 'Board not found');
         }
-        console.log('Board', board);
+        // console.log('Board', board);
 
         const { error, value } = createTaskSchema.validate(req.body);
         if (error) {

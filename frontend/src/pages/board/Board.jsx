@@ -112,7 +112,7 @@ export const Board = () => {
     if (id) {
       fetchAllTasks(id)
     }
-    console.log("page found")
+    // console.log("page found")
 
   }, [])
 

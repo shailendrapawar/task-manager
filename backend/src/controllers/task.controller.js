@@ -22,7 +22,7 @@ export const getTask = async (req, res) => {
             return handleError(res, 400, ' Invalid Task ID');
         }
         const task = await Task.findById(id).lean();
-        console.log('Task', task);
+        // console.log('Task', task);
         if (!task) {
             return handleError(res, 404, 'Task not found', null);
         }
