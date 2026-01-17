@@ -11,7 +11,7 @@ export const Modal = ({ isOpen, onClose, children }) => {
                 left: 0,
                 width: "100%",
                 height: "100%",
-                backgroundColor: "rgba(0,0,0,0.4)",
+                backgroundColor: "rgba(0,0,0,0.8)",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -28,7 +28,7 @@ export const Modal = ({ isOpen, onClose, children }) => {
                 className="relative py-10 min-h-20  "
                 onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
             >
-                <IoMdClose className=" absolute top-2 right-2 h-5 w-5" onClick={() => onClose()} />
+                <IoMdClose className=" absolute top-2 right-2 h-5 w-5 cursor-pointer " onClick={() => onClose()} />
                 {children}
             </div>
 

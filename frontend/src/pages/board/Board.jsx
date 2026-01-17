@@ -11,12 +11,12 @@ import CreateTask from "../../components/createTask/CreateTask.jsx";
 import API from "../../configs/api.js";
 import toast from "react-hot-toast";
 import { useTasks } from "../../contexts/tasks/TaskProvider.jsx";
-
+import { IoCaretBack } from "react-icons/io5";
 
 export const Board = () => {
   const navigate = useNavigate();
   const { theme } = useTheme()
-  const { setTasks, tasks, addTask, deleteTask, updateTask,aggData } = useTasks();
+  const { setTasks, tasks, addTask, deleteTask, updateTask, aggData } = useTasks();
 
   const [loading, setLoading] = useState(false);
 
@@ -131,11 +131,12 @@ export const Board = () => {
         <span className=" flex items-center gap-2"
           style={{ color: theme.primary }}
         >
-          <MdWindow className="h-10 w-10" onClick={() => navigate(-1)} />
-          <span className="text-xl font-semibold">{name || ""}</span>
+          <IoCaretBack className="h-10 w-10 cursor-pointer active:opacity-90" onClick={() => navigate(-1)} />
+
+          <span className="text-xl font-semibold ">{name || ""}{name != "" ? " 's Board" : ""}</span>
         </span>
 
-        <button className=" text-white px-4 py-2 rounded-md  transition flex items-center gap-2"
+        <button className=" text-white px-4 py-2 rounded-md active:opacity-95  transition flex items-center gap-2"
           style={{ backgroundColor: theme.primary }}
           onClick={() => setIsModelOpen(true)}
         >
